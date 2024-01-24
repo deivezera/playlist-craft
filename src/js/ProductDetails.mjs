@@ -16,7 +16,7 @@ export default class ProductDetails {
     
   }
   addToCart() {
-    setLocalStorage("so-cart", this.product);
+    setLocalStorage("so-cart", [this.product]);
   }
   async renderProductDetails() {
       const  { 
