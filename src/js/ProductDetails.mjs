@@ -29,7 +29,7 @@ export default class ProductDetails {
       const  { 
         Brand, 
         NameWithoutBrand,
-        Image, 
+        Images, 
         Name, 
         ListPrice, 
         Colors, 
@@ -44,7 +44,7 @@ export default class ProductDetails {
 
         <img
           class="divider"
-          src="${Image}"
+          src="${Images.PrimaryMedium}"
           alt="${Name.split("-")[0]}"
         />
 
