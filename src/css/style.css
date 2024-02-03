@@ -227,3 +227,7 @@ footer {
 .hide {
   display: none;
 }
+
+.remove-btn {
+  padding: 0 1rem;
+}

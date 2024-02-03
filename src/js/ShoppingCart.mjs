@@ -1,4 +1,4 @@
-import { getLocalStorage, formatter } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, formatter } from "./utils.mjs";
 
 function cartItemTemplate(item) {
   const newItem = `<li class="cart-card divider">
@@ -12,7 +12,10 @@ function cartItemTemplate(item) {
     <h2 class="card__name">${item.Name}</h2>
   </a>
   <p class="cart-card__color">${item.Colors[0].ColorName}</p>
-  <p class="cart-card__quantity">qty: 1</p>
+  <div>
+    <p class="cart-card__quantity">qty: 1</p>
+    <button id=${item.Id} class="remove-btn">x</button>
+  </div>
   <p class="cart-card__price">$${item.FinalPrice}</p>
 </li>`;
 
@@ -31,8 +34,20 @@ export default class ShoppingCart {
       const htmlItems = cartItems.map((item) => cartItemTemplate(item));
       const totalPrice = cartItems.reduce((total, item) => item.FinalPrice + total, 0)
       cartFooter.classList.remove("hide");
-      cartFooter.innerHTML = `<p>Total: ${formatter.format(totalPrice)}</p>`
+      const p = document.createElement("p")
+      p.innerHTML = `Total: ${formatter.format(totalPrice)}`
+      cartFooter.appendChild(p) 
       document.querySelector(this.parentSelector).innerHTML = htmlItems.join("");
+
+      document.querySelectorAll(".remove-btn").forEach((item) => {
+        document.getElementById(item.id).addEventListener("click", function() {
+          const itemToBeRemoved = cartItems.find((cartitem) => cartitem.Id === item.id)
+          const index = cartItems.indexOf(itemToBeRemoved)
+          cartItems.splice(index,1)
+          document.getElementById(item.id).parentNode.parentNode.remove()
+          setLocalStorage("so-cart", cartItems);
+        })
+      })
     }
   }
 }
